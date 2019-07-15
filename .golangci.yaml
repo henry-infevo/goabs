@@ -45,3 +45,7 @@ issues:
     - text: "weak cryptographic primitive"
       linters:
         - gosec
+    - text: "should have a package comment"
+      linters:
+        - golint
+  exclude-use-default: false

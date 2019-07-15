@@ -1,36 +1,61 @@
 package log
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/jkaveri/goabs/log"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestLog(t *testing.T) {
-	type testCase struct {
-		name string
+	const expected = "level=\"info\" message=\"test_msg\""
+	writer := &fakeWriter{}
+	std = &Logger{
+		adapter: NewAdapterLog(writer, "", 0),
+	}
+	Log(LevelInfo, "test_msg")
+	assert.Contains(t, writer.content, expected)
+}
+
+func TestConfigure(t *testing.T) {
+	adapter := NewAdapterTest(func(fields Fields) {
+
+	})
+	Configure(adapter)
+
+	assert.NotNil(t, std)
+	assert.Equal(t, std.adapter, adapter)
+}
+
+func TestLogFunctions(t *testing.T) {
+	cases := []struct {
+		level   Level
+		logFunc func(string, ...Arg)
+	}{
+		{LevelTrace, Trace},
+		{LevelDebug, Debug},
+		{LevelInfo, Info},
+		{LevelWarn, Warn},
+		{LevelError, Error},
+		{LevelPanic, Panic},
+		{LevelFatal, Fatal},
 	}
 
-	testFunc := func(c *testCase) func(t *testing.T) {
-		return func(t1 *testing.T) {
-			log.Log(
-				LevelDebug,
-				"",
-				WithFields(log.Fields{
-					"a": 10,
-				}),
-			)
-		}
+	for i := 0; i < len(cases); i++ {
+		c := cases[i]
+		t.Run(c.level.String(), func(t *testing.T) {
+			t.Parallel()
+			testLogFunc(t, c.level, c.logFunc)
+		})
 	}
+}
 
-	testCases := []*testCase{
-		{
-			name: "simple test case",
-		},
+func testLogFunc(t *testing.T, level Level, logFunc func(string, ...Arg)) {
+	expected := fmt.Sprintf("level=\"%v\" message=\"test_msg\"", level)
+	writer := &fakeWriter{}
+	std = &Logger{
+		adapter: NewAdapterLog(writer, "", 0),
 	}
-
-	for i := 0; i < len(testCases); i++ {
-		c := testCases[i]
-		t.Run(c.name, testFunc(c))
-	}
+	logFunc("test_msg")
+	assert.Contains(t, writer.content, expected)
 }
