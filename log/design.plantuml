@@ -1,0 +1,37 @@
+@startuml
+package Log {
+  enum Level {
+  }
+
+  interface ILogAdapter {
+    Log(fields Fields)
+  }
+
+  class AdapterLog {
+    Log(fields Fields)
+  }
+
+  class Logger {
+    -adapter ILogAdapter
+    +Log(Level, string, ..Arg)
+  }
+
+  ILogAdapter <|-- AdapterLog
+  Logger -- ILogAdapter
+
+  class Arg << (F,#FF7700) Func >>
+  {
+    +(fields Fields)
+  }
+
+  note bottom of Arg
+    a function that help
+    to build log's fields
+    fluently
+  end note
+  note left of AdapterLog
+    a sample implementation
+    of ILogAdapter using "log" package
+  end note
+}
+@enduml

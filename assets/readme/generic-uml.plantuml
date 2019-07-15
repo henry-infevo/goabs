@@ -1,0 +1,36 @@
+@startuml
+
+interface IAdapter
+{
+    Do()
+}
+
+class Decorator
+{
+    +DoA()
+    +DoB()
+    -adapter IAdapter
+}
+
+
+IAdapter -- Decorator
+
+class DependencyAAdapter
+{
+    +Do()
+}
+class DependencyBAdapter
+{
+    +Do()
+}
+
+
+DependencyAAdapter <|-- IAdapter
+DependencyBAdapter <|-- IAdapter
+
+class Client {
+   -decorator:Decorator
+}
+
+
+@enduml

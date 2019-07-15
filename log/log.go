@@ -1,53 +1,65 @@
 package log
 
 import (
-	"fmt"
+	"log"
+	"os"
 )
 
-type LogLevel int
-type Arg = func(fields Fields)
+// Arg log argument function
+type Arg func(fields Fields)
 
-const (
-	LevelTrace LogLevel = iota
-	LevelDebug
-	LevelInfo
-	LevelWarn
-	LevelError
-	LevelFatal
-)
-
-var std ILogger = &FmtLogger{}
-
-func Configure(logger ILogger) {
-	std = logger
+var std = &Logger{
+	adapter: NewAdapterLog(os.Stderr, "", log.LstdFlags),
 }
 
-func Log(level LogLevel, msg string, args ...Arg) {
-	data := Fields{}
-	for _, arg := range args {
-		arg(data)
-	}
-	data[FieldLevel] = level
-	data[FieldMessage] = msg
-	std.Log(data)
+// Configure configure default log for log package
+func Configure(adapter ILogAdapter) {
+	std = &Logger{adapter: adapter}
 }
 
-// Info log with info level
+// Log log message with level and args
+// There are other shorter syntax for specific level
+// like: Trace, Debug, Info, Warn, Error, Panic, Fatal
+func Log(level Level, msg string, args ...Arg) {
+	std.Log(level, msg, args...)
+}
+
+// Trace log message with "trace" level and arguments
+func Trace(msg string, args ...Arg) {
+	std.Trace(msg, args...)
+}
+
+// Debug log message with debug level and arguments
+func Debug(msg string, args ...Arg) {
+	std.Debug(msg, args...)
+}
+
+// Info log message with Info level and arguments
 func Info(msg string, args ...Arg) {
-	Log(LevelInfo, msg, args...)
+	std.Info(msg, args...)
 }
 
-func Infof(msg string, args ...interface{}) {
-	fArgs := make([]Arg, len(args))
-	i := -1
-	for _, arg := range args {
-		if _, ok := arg.(Arg); ok {
-			break
-		}
-		i++
-	}
-	if i > -1 {
-		msg = fmt.Sprintf(msg, args[0:i])
-	}
-	Log(LevelInfo, msg)
+// Warn log message with "warn" level and arguments
+func Warn(msg string, args ...Arg) {
+	std.Warn(msg, args...)
+}
+
+// Error log message with "error" level
+// use WithError to attach the error
+func Error(msg string, args ...Arg) {
+	std.Error(msg, args...)
+}
+
+// Panic log message with "panic" level and arguments
+// use WithError to attach the error
+// some log engine may call panic function after log the message
+func Panic(msg string, args ...Arg) {
+	std.Panic(msg, args...)
+}
+
+// Fatal log message with "fatal" level and arguments
+// use WithError to attach the error
+// some log engine may call os.Exit function after log the message
+func Fatal(msg string, args ...Arg) {
+	std.Fatal(msg, args...)
 }
