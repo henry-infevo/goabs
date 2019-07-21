@@ -18,7 +18,10 @@ You can reference this as
 
 ## TODO
 
-- [ ] WPI: Logging
+- [ ] [WIP] Logging
+  - [x] Abstraction and default implementation
+  - [] Logrus adapter
+  - [] Zap adapter
 - [ ] Queue & Worker Pool
 - [ ] Event Bus
 - [ ] Caching
