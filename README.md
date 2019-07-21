@@ -20,8 +20,8 @@ You can reference this as
 
 - [ ] [WIP] Logging
   - [x] Abstraction and default implementation
-  - [] Logrus adapter
-  - [] Zap adapter
+  - [ ] Logrus adapter
+  - [ ] Zap adapter
 - [ ] Queue & Worker Pool
 - [ ] Event Bus
 - [ ] Caching
