@@ -22,8 +22,8 @@ You can reference this as
   - [x] Abstraction and default implementation
   - [ ] Logrus adapter
   - [ ] Zap adapter
-- [ ] Queue & Worker Pool
-- [ ] Event Bus
+- [ ] [WIP] Queue & Worker Pool
+- [ ] [WIP] Event Bus
 - [ ] Caching
 - [ ] Mediator
 - [ ] Tracing? (we can use opencensus)
