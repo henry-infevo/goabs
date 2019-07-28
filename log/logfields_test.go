@@ -6,9 +6,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-
-	"github.com/jkaveri/goabs/buildflag"
 )
+
+// BenchNumberLogFields number of fields that are generated while benchmarking
+var BenchNumberLogFields = 50
 
 func TestFields_Message(t *testing.T) {
 
@@ -58,8 +59,8 @@ func TestFields_Message(t *testing.T) {
 		return func(t *testing.T) {
 			t.Parallel()
 			fields := Fields{
-				fieldMessage:    c.msg,
-				fieldFormatArgs: c.formatArgs,
+				FieldKeyMessage:    c.msg,
+				FieldKeyFormatArgs: c.formatArgs,
 			}
 
 			result := fields.Message()
@@ -75,8 +76,8 @@ func TestFields_Message(t *testing.T) {
 }
 
 func BenchmarkFields_Message(b *testing.B) {
-	fields := generateTestFields(buildflag.BenchNumberLogFields)
-	fields[fieldMessage] = "msg"
+	fields := generateTestFields(BenchNumberLogFields)
+	fields[FieldKeyMessage] = "msg"
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		fields.Message()
@@ -112,7 +113,7 @@ func TestFields_Error(t *testing.T) {
 		return func(t *testing.T) {
 			t.Parallel()
 			fields := Fields{
-				fieldError: c.error,
+				FieldKeyError: c.error,
 			}
 
 			result := fields.Error()
@@ -128,8 +129,8 @@ func TestFields_Error(t *testing.T) {
 }
 
 func BenchmarkFields_Error(b *testing.B) {
-	fields := generateTestFields(buildflag.BenchNumberLogFields)
-	fields[fieldError] = errors.New("error")
+	fields := generateTestFields(BenchNumberLogFields)
+	fields[FieldKeyError] = errors.New("error")
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = fields.Error()
@@ -146,63 +147,63 @@ func TestFields_String(t *testing.T) {
 		{
 			name: "happy_case",
 			fields: Fields{
-				"s":          "my_val",
-				"i":          10,
-				fieldLevel:   LevelDebug,
-				fieldMessage: "my_msg",
-				fieldError:   errors.New("my_error"),
+				"s":             "my_val",
+				"i":             10,
+				FieldKeyLevel:   LevelDebug,
+				FieldKeyMessage: "my_msg",
+				FieldKeyError:   errors.New("my_error"),
 			},
 			expected: map[string]string{
-				"s":          "my_val",
-				"i":          "10",
-				fieldLevel:   LevelDebug.String(),
-				fieldMessage: "my_msg",
-				fieldError:   "my_error",
+				"s":             "my_val",
+				"i":             "10",
+				FieldKeyLevel:   LevelDebug.String(),
+				FieldKeyMessage: "my_msg",
+				FieldKeyError:   "my_error",
 			},
 		},
 		{
 			name: "without_level",
 			fields: Fields{
-				"s":          "my_val",
-				"i":          10,
-				fieldMessage: "my_msg",
-				fieldError:   errors.New("my_error"),
+				"s":             "my_val",
+				"i":             10,
+				FieldKeyMessage: "my_msg",
+				FieldKeyError:   errors.New("my_error"),
 			},
 			expected: map[string]string{
-				"s":          "my_val",
-				"i":          "10",
-				fieldMessage: "my_msg",
-				fieldError:   "my_error",
+				"s":             "my_val",
+				"i":             "10",
+				FieldKeyMessage: "my_msg",
+				FieldKeyError:   "my_error",
 			},
 		},
 		{
 			name: "without_msg",
 			fields: Fields{
-				"s":        "my_val",
-				"i":        10,
-				fieldLevel: LevelDebug,
-				fieldError: errors.New("my_error"),
+				"s":           "my_val",
+				"i":           10,
+				FieldKeyLevel: LevelDebug,
+				FieldKeyError: errors.New("my_error"),
 			},
 			expected: map[string]string{
-				"s":        "my_val",
-				"i":        "10",
-				fieldLevel: LevelDebug.String(),
-				fieldError: "my_error",
+				"s":           "my_val",
+				"i":           "10",
+				FieldKeyLevel: LevelDebug.String(),
+				FieldKeyError: "my_error",
 			},
 		},
 		{
 			name: "without_error",
 			fields: Fields{
-				"s":          "my_val",
-				"i":          10,
-				fieldLevel:   LevelDebug,
-				fieldMessage: "my_msg",
+				"s":             "my_val",
+				"i":             10,
+				FieldKeyLevel:   LevelDebug,
+				FieldKeyMessage: "my_msg",
 			},
 			expected: map[string]string{
-				"s":          "my_val",
-				"i":          "10",
-				fieldLevel:   LevelDebug.String(),
-				fieldMessage: "my_msg",
+				"s":             "my_val",
+				"i":             "10",
+				FieldKeyLevel:   LevelDebug.String(),
+				FieldKeyMessage: "my_msg",
 			},
 		},
 		{
@@ -240,10 +241,18 @@ func TestFields_String(t *testing.T) {
 }
 
 func BenchmarkFields_String(b *testing.B) {
-	fields := generateTestFields(buildflag.BenchNumberLogFields)
+	fields := generateTestFields(BenchNumberLogFields)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = fields.String()
+	}
+}
+
+func BenchmarkFields_Rest(b *testing.B) {
+	fields := generateTestFields(BenchNumberLogFields)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		fields.Rest()
 	}
 }
 

@@ -23,13 +23,13 @@ func WithFields(fields Fields) Arg {
 // method
 func WithFormatArg(args ...interface{}) Arg {
 	return func(fields Fields) {
-		fields[fieldFormatArgs] = args
+		fields[FieldKeyFormatArgs] = args
 	}
 }
 
 // WithError will attach the error into the log item fields
 func WithError(err error) Arg {
 	return func(fields Fields) {
-		fields[fieldError] = err
+		fields[FieldKeyError] = err
 	}
 }
