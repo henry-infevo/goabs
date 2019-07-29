@@ -6,10 +6,10 @@ import (
 )
 
 const (
-	fieldLevel      = "level"
-	fieldMessage    = "message"
-	fieldError      = "error"
-	fieldFormatArgs = "@@fargs"
+	FieldKeyLevel      = "level"
+	FieldKeyMessage    = "message"
+	FieldKeyError      = "error"
+	FieldKeyFormatArgs = "@@fargs"
 )
 
 // Fields fields contains all logging data
@@ -18,7 +18,7 @@ type Fields map[string]interface{}
 // Level extract level in fields
 // return `LevelNone` if there are no level was set or level type
 func (d Fields) Level() Level {
-	if val, ok := d[fieldLevel]; ok {
+	if val, ok := d[FieldKeyLevel]; ok {
 		if l, ok := val.(Level); ok {
 			return l
 		}
@@ -31,7 +31,7 @@ func (d Fields) Level() Level {
 // return formatted string (like `fmt.Sprintf`) if the message is format string
 // and user has attached the format arguments by using `WithFormatArgs` method
 func (d Fields) Message() string {
-	val, ok := d[fieldMessage]
+	val, ok := d[FieldKeyMessage]
 	if !ok {
 		return ""
 	}
@@ -39,7 +39,7 @@ func (d Fields) Message() string {
 	if !ok {
 		return ""
 	}
-	val, ok = d[fieldFormatArgs]
+	val, ok = d[FieldKeyFormatArgs]
 	if !ok {
 		return s
 	}
@@ -54,7 +54,7 @@ func (d Fields) Message() string {
 // Error extract error from Fields
 // return nil if not exist
 func (d Fields) Error() error {
-	if val, ok := d[fieldError]; ok {
+	if val, ok := d[FieldKeyError]; ok {
 		if err, ok := val.(error); ok {
 			return err
 		}
@@ -64,14 +64,12 @@ func (d Fields) Error() error {
 
 // Rest return all log data in Fields except "known-fields"
 // known fields are: Error, Message, Level, FormatArgs
-func (d Fields) Rest() map[string]interface{} {
-	rest := make(map[string]interface{})
+func (d Fields) Rest() Fields {
+	rest := Fields{}
 	for key, val := range d {
-		if d.IsKnowFieldKey(key) {
-			continue
-		}
 		rest[key] = val
 	}
+	rest.DeleteAllKnowFields()
 	return rest
 }
 
@@ -87,7 +85,7 @@ func (d Fields) String() string {
 	first := true
 	if str != "" {
 		first = false
-		writeLogItem(&sb, fieldLevel, str)
+		writeLogItem(&sb, FieldKeyLevel, str)
 	}
 
 	str = d.Message()
@@ -97,7 +95,7 @@ func (d Fields) String() string {
 			sb.WriteRune(' ')
 		}
 		first = false
-		writeLogItem(&sb, fieldMessage, str)
+		writeLogItem(&sb, FieldKeyMessage, str)
 	}
 
 	if err := d.Error(); err != nil {
@@ -106,7 +104,7 @@ func (d Fields) String() string {
 			sb.WriteRune(' ')
 		}
 		first = false
-		writeLogItem(&sb, fieldError, err.Error())
+		writeLogItem(&sb, FieldKeyError, err.Error())
 	}
 	for key, val := range d {
 		// ignore known fields
@@ -123,10 +121,28 @@ func (d Fields) String() string {
 	return sb.String()
 }
 
-// IsKnowFieldKey check if
+// IsKnowFieldKey check if field key is know fields
+// Know keys are:
+// - FieldKeyFormatArgs
+// - FieldKeyMessage
+// - FieldKeyError
+// - FieldKeyLevel
 func (d Fields) IsKnowFieldKey(key string) bool {
-	return key == fieldFormatArgs ||
-		key == fieldMessage ||
-		key == fieldError ||
-		key == fieldLevel
+	return key == FieldKeyFormatArgs ||
+		key == FieldKeyMessage ||
+		key == FieldKeyError ||
+		key == FieldKeyLevel
+}
+
+// DeleteAllKnowFields delete all fields which are knew fields
+// Know keys are:
+// - FieldKeyFormatArgs
+// - FieldKeyMessage
+// - FieldKeyError
+// - FieldKeyLevel
+func (d Fields) DeleteAllKnowFields() {
+	delete(d, FieldKeyLevel)
+	delete(d, FieldKeyError)
+	delete(d, FieldKeyMessage)
+	delete(d, FieldKeyFormatArgs)
 }

@@ -30,16 +30,16 @@ func TestWithFormatArg(t *testing.T) {
 	fields := Fields{}
 	arg(fields)
 
-	assert.Equal(t, []interface{}{"1", 2, true}, fields[fieldFormatArgs])
+	assert.Equal(t, []interface{}{"1", 2, true}, fields[FieldKeyFormatArgs])
 }
 
 func TestWithFormatArgAndMessage(t *testing.T) {
 	arg := WithFormatArg("1", 2, true)
 	fields := Fields{
-		fieldMessage: "%v, %v, %v",
+		FieldKeyMessage: "%v, %v, %v",
 	}
 	arg(fields)
 
-	assert.Equal(t, []interface{}{"1", 2, true}, fields[fieldFormatArgs])
+	assert.Equal(t, []interface{}{"1", 2, true}, fields[FieldKeyFormatArgs])
 	assert.Equal(t, "1, 2, true", fields.Message())
 }

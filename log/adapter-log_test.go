@@ -23,27 +23,27 @@ func TestAdapterLog_Log(t *testing.T) {
 	}{
 		{
 			name:   "only_msg",
-			fields: Fields{fieldMessage: "msg"},
+			fields: Fields{FieldKeyMessage: "msg"},
 			flag:   0,
 		},
 		{
 			name: "only_level",
 			fields: Fields{
-				fieldLevel: LevelInfo,
+				FieldKeyLevel: LevelInfo,
 			},
 			flag: 0,
 		},
 		{
 			name: "only_level",
 			fields: Fields{
-				fieldLevel: LevelInfo,
+				FieldKeyLevel: LevelInfo,
 			},
 			flag: 0,
 		},
 		{
 			name: "only_error",
 			fields: Fields{
-				fieldLevel: LevelError,
+				FieldKeyLevel: LevelError,
 			},
 			flag: 0,
 		},

@@ -42,8 +42,8 @@ func TestLogger_Log(t *testing.T) {
 			},
 			want: &testWant{
 				fields: map[string]interface{}{
-					fieldMessage: "test",
-					fieldLevel:   LevelInfo,
+					FieldKeyMessage: "test",
+					FieldKeyLevel:   LevelInfo,
 				},
 			},
 		},
@@ -61,10 +61,10 @@ func TestLogger_Log(t *testing.T) {
 			},
 			want: &testWant{
 				fields: map[string]interface{}{
-					fieldMessage: "test",
-					fieldLevel:   LevelInfo,
-					"test_arg":   "test_arg",
-					"a_number":   10,
+					FieldKeyMessage: "test",
+					FieldKeyLevel:   LevelInfo,
+					"test_arg":      "test_arg",
+					"a_number":      10,
 				},
 			},
 		},
@@ -75,15 +75,15 @@ func TestLogger_Log(t *testing.T) {
 				msg:   "test",
 				args: []Arg{
 					func(fields Fields) {
-						fields[fieldLevel] = LevelDebug
-						fields[fieldMessage] = "no_test_message"
+						fields[FieldKeyLevel] = LevelDebug
+						fields[FieldKeyMessage] = "no_test_message"
 					},
 				},
 			},
 			want: &testWant{
 				fields: map[string]interface{}{
-					fieldMessage: "test",
-					fieldLevel:   LevelInfo,
+					FieldKeyMessage: "test",
+					FieldKeyLevel:   LevelInfo,
 				},
 			},
 		},

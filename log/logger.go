@@ -20,8 +20,8 @@ func (t *Logger) Log(level Level, msg string, args ...Arg) {
 	for _, arg := range args {
 		arg(fields)
 	}
-	fields[fieldLevel] = level
-	fields[fieldMessage] = msg
+	fields[FieldKeyLevel] = level
+	fields[FieldKeyMessage] = msg
 	t.adapter.Log(fields)
 }
 
