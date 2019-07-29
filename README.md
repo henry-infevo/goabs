@@ -18,9 +18,9 @@ You can reference this as
 
 ## TODO
 
-- [ ] [WIP] Logging
+- [ ] [WIP] [Logging](./log)
   - [x] Abstraction and default implementation
-  - [x] Logrus adapter
+  - [x] [Logrus adapter](./log/adapter-logrus)
   - [ ] Zap adapter
 - [ ] [WIP] Queue & Worker Pool
 - [ ] [WIP] Event Bus

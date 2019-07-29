@@ -48,4 +48,4 @@ log.Configure(mylogadapter.NewAdapter())
 
 ### Examples
 
-- [Use with logrus](../examples/log-logrus)
+- [Use with logrus](../examples/log-logrus/log-logrus.go)
