@@ -45,3 +45,7 @@ When you implemented the adapter you can configure log package to use your adapt
 ```go
 log.Configure(mylogadapter.NewAdapter())
 ```
+
+### Examples
+
+- [Use with logrus](../examples/log-logrus)
