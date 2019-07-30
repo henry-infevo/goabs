@@ -33,3 +33,5 @@ You can reference this as
 ## Contributor seeding
 
 As this is an open source, I always welcome your contribution. So please send me your idea or pull requests.
+
+You can refer to the todo list of the repo to find something can contribute on: https://github.com/jkaveri/goabs/issues?q=is%3Aissue+is%3Aopen+label%3ATODO
