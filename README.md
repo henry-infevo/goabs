@@ -14,7 +14,9 @@ The general idea is introduce some abstraction interface and decorator which hel
 
 ![generic-uml](assets/readme/generic-uml.png)
 
-You can reference this as 
+## Usage
+
+- [Logging](./log)
 
 ## TODO
 

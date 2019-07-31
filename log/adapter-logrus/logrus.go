@@ -6,17 +6,22 @@ import (
 	"github.com/jkaveri/goabs/log"
 )
 
+// AdapterLogrus logrus adapter implement IAdapter
 type AdapterLogrus struct {
 	logger *logrus.Logger
 }
 
-// NewAdapter
+var _ log.ILogAdapter = (*AdapterLogrus)(nil)
+
+// NewAdapterLogrus create new adapter logrus
 func NewAdapterLogrus(logger *logrus.Logger) *AdapterLogrus {
 	return &AdapterLogrus{
 		logger: logger,
 	}
 }
 
+// Log implement ILogAdapter
+// convert fields to logrus fields
 func (a *AdapterLogrus) Log(fields log.Fields) {
 	level := convertToLogrusLevel(fields.Level())
 	msg := fields.Message()
@@ -32,7 +37,6 @@ func (a *AdapterLogrus) Log(fields log.Fields) {
 	entry.Log(level, msg)
 }
 
-var _ log.ILogAdapter = (*AdapterLogrus)(nil)
 
 func convertToLogrusFields(fields log.Fields) logrus.Fields {
 	logrusFields := logrus.Fields{}

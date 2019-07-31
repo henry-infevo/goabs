@@ -133,7 +133,8 @@ func BenchmarkFields_Error(b *testing.B) {
 	fields[FieldKeyError] = errors.New("error")
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_ = fields.Error()
+		// nolint
+		fields.Error()
 	}
 }
 

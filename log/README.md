@@ -8,6 +8,15 @@ This package provide methods that help in logging you can change the log engine 
 
 ## Usage
 
+### Install
+
+```bash
+go get github.com/jkaveri/goabs/log
+# install adapter
+# for example, if you use logrus
+go get github.com/jkaveri/goabs/log/adapter-logrus
+```
+
 ### Default
 
 You can start using log package with default configuration which will use `AdapterLog`  as an adapter which uses "log" package as log engine
@@ -29,6 +38,34 @@ func man() {
 	)
 }
 ```
+### Use with logrus
+
+```go
+    logger := logrus.New()
+    logger.SetLevel(logrus.InfoLevel)
+    log.Configure(
+		    logadapter.NewAdapterLogrus(logger),
+	  )
+	  
+    log.Info("this is log message")
+    
+    log.Info(
+        "this is formatted message: %d",
+        log.WithFormatArg(10),
+    )
+    
+    log.Info(
+        "this is full feature of %s",
+        log.WithFormatArg("logging"),
+        log.WithFields(log.Fields{
+          "username": "some username",
+          "score":    15.2,
+        }),
+        log.WithField("age", 10),
+        log.WithError(errors.New("test error")),
+    )
+```
+
 
 ### Use another log engine
 

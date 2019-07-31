@@ -6,9 +6,15 @@ import (
 )
 
 const (
-	FieldKeyLevel      = "level"
-	FieldKeyMessage    = "message"
-	FieldKeyError      = "error"
+	// FieldKeyLevel key of log level field
+	FieldKeyLevel = "level"
+	// FieldKeyMessage key of log message field
+	FieldKeyMessage = "message"
+	// FieldKeyError key of log error field
+	FieldKeyError = "error"
+	// FieldKeyFormatArgs key of format arguments field
+	// format arguments is a list of arguments that can
+	// be passed into the `fmt.Sprintf`
 	FieldKeyFormatArgs = "@@fargs"
 )
 

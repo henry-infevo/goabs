@@ -11,6 +11,9 @@ type AdapterLog struct {
 	logger *log.Logger
 }
 
+// compile time error if AdapterLog not implement ILogAdapter
+var _ ILogAdapter = (*AdapterLog)(nil)
+
 // NewAdapterLog create `AdapterLog``. The `out`
 // destination to which log data will be written. default: `os.Stderr`
 // The `prefix` appears at the beginning of each generated log line.
@@ -42,6 +45,3 @@ func (t *AdapterLog) Log(fields Fields) {
 
 	t.logger.Println(msg)
 }
-
-// compile time contains that AdapterLog implement ILogAdapter
-var _ ILogAdapter = (*AdapterLog)(nil)
