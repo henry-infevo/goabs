@@ -3,19 +3,24 @@ package main
 import (
 	"errors"
 
+	adapter "github.com/jkaveri/goabs-adapter-logrus"
 	"github.com/sirupsen/logrus"
 
-	"github.com/jkaveri/goabs/log"
-	logadapter "github.com/jkaveri/goabs/log/adapter-logrus"
+	"github.com/jkaveri/goabs-log"
 )
 
 func main() {
+	// create new logrus instance
 	logger := logrus.New()
+	// set logrus level, this is example of you can
+	// do what every you want with logrus instance.
 	logger.SetLevel(logrus.InfoLevel)
-	log.Configure(
-		logadapter.NewAdapterLogrus(logger),
-	)
-
+	// create new adapter to connect logrus with goabs-log
+	adapterLogrus := adapter.NewAdapterLogrus(logger)
+	// set adapter.
+	log.Configure(adapterLogrus)
+	// existing code doesn't impact
+	// if you switch to another log engine
 	log.Info("this is log message")
 
 	log.Info(

@@ -14,15 +14,21 @@ The general idea is introduce some abstraction interface and decorator which hel
 
 ![generic-uml](assets/readme/generic-uml.png)
 
-## Usage
+## Packages
 
-- [Logging](./log)
+- [Logging](https://github.com/jkaveri/goabs-log)
+  - [Logrus Adapter](https://github.com/jkaveri/goabs-adapter-logrus)
+
+## Examples
+
+- Logging
+  - [logging with logrus](./examples/log-logrus)
 
 ## TODO
 
-- [ ] [WIP] [Logging](./log)
+- [ ] [WIP] [Logging](https://github.com/jkaveri/goabs-log)
   - [x] Abstraction and default implementation
-  - [x] [Logrus adapter](./log/adapter-logrus)
+  - [x] [Logrus adapter](https://github.com/jkaveri/goabs-adapter-logrus)
   - [ ] Zap adapter
 - [ ] [WIP] Queue & Worker Pool
 - [ ] [WIP] Event Bus
