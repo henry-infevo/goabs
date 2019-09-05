@@ -26,11 +26,15 @@ The general idea is introduce some abstraction interface and decorator which hel
 
 ## TODO
 
-- [ ] [WIP] [Logging](https://github.com/jkaveri/goabs-log)
+- [ ] [Logging](https://github.com/jkaveri/goabs-log)
   - [x] Abstraction and default implementation
   - [x] [Logrus adapter](https://github.com/jkaveri/goabs-adapter-logrus)
   - [ ] Zap adapter
-- [ ] [WIP] Queue & Worker Pool
+- [ ] [Queue & Worker Pool](https://github.com/jkaveri/goabs-workerpool)
+  - [x] Abstraction and default implementation
+  - [ ] RabbitMQ
+  - [ ] ActiveMQ
+  - [ ] ZeroMQ
 - [ ] [WIP] Event Bus
 - [ ] Caching
 - [ ] Mediator
